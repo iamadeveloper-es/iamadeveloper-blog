@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import AppViewCategory from '../components/templates/app-view-category.vue'
+import AppViewHome from '../components/templates/app-view-home.vue'
+import AppViewSinglePost from '../components/templates/app-view-single-post.vue'
+import Test from '../components/templates/test-vue-3.vue'
 
 Vue.use(VueRouter)
 
@@ -8,15 +11,25 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: AppViewHome
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    path: '/post/:slug',
+    name: 'SinglePost',
+    component: AppViewSinglePost,
+    props: true
+  },
+  {
+    path: '/posts/category/:slug',
+    name: 'Category',
+    component: AppViewCategory,
+    props: true
+  },
+  {
+    path: '/test',
+    name: 'Test',
+    component: Test,
+    props: true
   }
 ]
 
