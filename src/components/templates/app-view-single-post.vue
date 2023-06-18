@@ -1,30 +1,37 @@
 <template lang="pug">
-section.section
-    .single-post.container(v-if="post")
-        .flex.flex--column.flex--x-center
-            .flex-child.flex-child-lg--8
-                h1 {{ post.attributes.title }}
-                .single-post__img(v-if="getImage")
-                    img(:src="getImage", alt="")
-                .single-post__content(
-                    v-for="(item, index) in post.attributes.content"
-                    :key="index"
-                )
-                    h2(v-if="item.title") {{ item.title }}
-                    template(v-if="item.text")
-                        div(v-html="markedToHtml(item.text)")
-                    template(v-if="item.media")
-                        div(v-html="item.text")
-
+.single-post(v-if="post")
+    .container
+        .grid-lg--12
+            .child--1-9
+                section.section
+                    h1 {{ post.attributes.title }}
+                    .single-post__img(v-if="getImage")
+                        img(:src="getImage", alt="")
+                    .single-post__content(
+                        v-for="(item, index) in post.attributes.content"
+                        :key="index"
+                    )
+                        h2(v-if="item.title") {{ item.title }}
+                        template(v-if="item.text")
+                            div(v-html="markedToHtml(item.text)")
+                        template(v-if="item.media")
+                            div(v-html="item.text")
+            .child--10-end
+                section.section
+                    app-nav-categories
 
 </template>
 
 <script>
 import AppMixinPostsServices from '@/mixins/services/posts'
+import AppNavCategories from '@/components/molecules/app-nav-categories'
 import { mapGetters } from 'vuex'
 import {marked} from 'marked'
 export default {
     name: 'app-view-single-post',
+    components: {
+        AppNavCategories
+    },
     mixins: [AppMixinPostsServices],
     data(){
         return{

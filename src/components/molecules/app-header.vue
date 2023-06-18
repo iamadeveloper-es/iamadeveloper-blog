@@ -32,12 +32,19 @@ header.app-header
                     )
                         router-link(:to="route.path") {{ route.name }}
                     li.app-header__li
-                        span(@click="toogleTheme") dark
+                        span.m-right--1 theme
+                        app-switch(
+                        :checked="checked"
+                        @changed="toogleTheme")
 </template> 
 
 <script>
+import AppSwitch from '@/components/molecules/app-switch'
 export default {
     name: 'app-header',
+    components: {
+        AppSwitch
+    },
     data(){
         return{
             routes: [
@@ -47,7 +54,8 @@ export default {
                 }
             ],
             theme: '',
-            oldTheme: ''
+            oldTheme: '',
+            checked: false
         }
     },
     watch: {
@@ -60,39 +68,45 @@ export default {
     methods: {
         toogleTheme(){
             const localTheme = JSON.parse(window.localStorage.getItem('theme'))
-
             if(localTheme){
                 if(localTheme === 'theme-dark'){
-                    this.theme = 'theme-light'
+                    // this.theme = 'theme-light'
+                    this.changeTheme('theme-light')
+                    this.checked = false
                 }
                 else{
-                    this.theme = 'theme-dark'
+                    this.changeTheme('theme-dark')
+                    this.checked = true
                 }
             }
             else{
                 if(this.theme === 'theme-dark'){
-                    this.theme = 'theme-light'
+                    this.changeTheme('theme-light')
+                    this.checked = false
                 }
                 else{
-                    this.theme = 'theme-dark'
+                    this.changeTheme('theme-dark')
+                    this.checked = true
                 }
             }
+        },
+        changeTheme(theme){
+            this.theme = theme
             window.localStorage.setItem('theme', JSON.stringify(`${this.theme}`))
-            
             document.querySelector('body').classList.add(`${this.theme}`)
-            
         },
         getTheme(){
             const localTheme = JSON.parse(window.localStorage.getItem('theme'))
 
-            if(localTheme){
+            if(localTheme && localTheme === 'theme-dark'){
                 this.theme = localTheme
+                this.checked = true
             }
             else{
                 this.theme = 'theme-light'
+                this.checked = false
             }
-
-            document.querySelector('body').classList.add(`${this.theme}`)
+            this.changeTheme(this.theme)
         }
     },
     mounted(){

@@ -1,22 +1,31 @@
 <template lang="pug">
 .app-view-category
-    section.section
-        .container
-            .flex.flex--column.flex--x-center
-                .post.flex-child.flex-child-lg--8
+    .container
+        .grid-lg--12
+            .child--1-9
+                section.section
                     h2.m-bottom--2 {{ storedCategory.attributes.name }}
-        .container
-            app-posts(:posts="posts")
+                    app-posts(
+                    v-if="posts.length"
+                    :posts="posts")
+                    .flex(v-else)
+                        .flex-child.flex-child-lg--6(
+                            v-for="(item, index) in 5"
+                            :key="index"
+                        )
+                            app-card-skeleton
 </template>
 
 <script>
 import AppMixinPostsServices from '@/mixins/services/posts'
 import AppPosts from '@/components/cells/app-posts.vue'
+import AppCardSkeleton from '@/components/molecules/app-card-skeleton.vue'
 import { mapGetters } from 'vuex'
 export default {
     name: 'app-view-category',
     components: {
-        AppPosts
+        AppPosts,
+        AppCardSkeleton
     },
     mixins: [AppMixinPostsServices],
     data(){

@@ -5,10 +5,14 @@ export default {
     name: 'app-mixin-categories',
     methods: {
         getAllCategories(){
-            const basePath = process.env.VUE_APP_API_BASE
+            return new Promise((resolve, reject) => {
 
-            return  api.get(`${basePath}/categories`)
-            .then(response => response)
+                const basePath = process.env.VUE_APP_API_BASE
+
+                return  api.get(`${basePath}/categories`)
+                .then(response => resolve(response))
+                .catch(err => reject(err))
+            })
         }
     }
 }

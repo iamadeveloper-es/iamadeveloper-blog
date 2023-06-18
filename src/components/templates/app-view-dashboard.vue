@@ -2,6 +2,8 @@
   .app-wrapper
     app-header
     main
+        transition(
+        name="fade")
         router-view(:key="$route.fullPath")
     app-footer
 </template>
@@ -18,6 +20,17 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+.fade-enter-active,
+.fade-leave-active {
+    transition: transform 0.55s ease-out, opacity 0.55s ease-out;
+    transform: translateY(0);
+    transition: opacity 0.5s ease;
+}
 
+.fade-enter-from,
+.fade-leave-to {
+    transform: translateY(150px);
+    opacity: 0;
+}
 </style>
